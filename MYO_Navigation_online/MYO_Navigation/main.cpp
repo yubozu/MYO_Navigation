@@ -109,41 +109,36 @@ public:
 		emgRawData emg_raw_data_instance;
 		for (int i = 0; i < 8; i++)
 		{
-			//int x = emg[i];
-			//std::cout << x << '\t';
 			emg_raw_data_instance.emg[i] = emg[i];
 		}
-		//std::cout << std :: endl;
 		emg_raw_data_instance.label = -1;
 		if (emg_raw_data_vector.size() == WINDOWS_LENGTH)
 		{
 			//计算特征 
 			emgCharacter emg_character_instance;
 			characterCalculate(emg_raw_data_vector, emg_character_instance);
-			for (int z = 0; z < 8; z++) std::cout << emg_character_instance.emg_mean[z] << '\t';
-			std::cout << std::endl;
-
 			//特征归一化
 			for (int j = 0; j < 8; j++)
 			{
 				emg_character_instance.emg_mean[j] = (emg_character_instance.emg_mean[j] - emg_character_template_min.emg_mean[j])
 					/ (emg_character_template_max.emg_mean[j] - emg_character_template_min.emg_mean[j]);
-				//emg_character_instance.emg_mean[j] = (emg_character_instance.emg_mean[j]>1) ? (1) : (emg_character_instance.emg_mean[j]);
-				//emg_character_instance.emg_mean[j] = (emg_character_instance.emg_mean[j]<0) ? (0) : (emg_character_instance.emg_mean[j]);
+				emg_character_instance.emg_mean[j] = (emg_character_instance.emg_mean[j]>1) ? (1) : (emg_character_instance.emg_mean[j]);
+				emg_character_instance.emg_mean[j] = (emg_character_instance.emg_mean[j]<0) ? (0) : (emg_character_instance.emg_mean[j]);
 				x[j].index = j + 1; x[j].value = emg_character_instance.emg_mean[j];
 
 				emg_character_instance.emg_stdev[j] = (emg_character_instance.emg_stdev[j] - emg_character_template_min.emg_stdev[j])
 					/ (emg_character_template_max.emg_stdev[j] - emg_character_template_min.emg_stdev[j]);
-				//emg_character_instance.emg_stdev[j] = (emg_character_instance.emg_stdev[j]>1) ? (1) : (emg_character_instance.emg_stdev[j]);
-				//emg_character_instance.emg_stdev[j] = (emg_character_instance.emg_stdev[j]<0) ? (0) : (emg_character_instance.emg_stdev[j]);
+				emg_character_instance.emg_stdev[j] = (emg_character_instance.emg_stdev[j]>1) ? (1) : (emg_character_instance.emg_stdev[j]);
+				emg_character_instance.emg_stdev[j] = (emg_character_instance.emg_stdev[j]<0) ? (0) : (emg_character_instance.emg_stdev[j]);
 				x[j+8].index = j + 8 + 1; x[j + 8].value = emg_character_instance.emg_stdev[j];
 
 				emg_character_instance.emg_max[j] = (emg_character_instance.emg_max[j] - emg_character_template_min.emg_max[j]) 
 					/ (emg_character_template_max.emg_max[j] - emg_character_template_min.emg_max[j]);
-				//emg_character_instance.emg_max[j] = (emg_character_instance.emg_max[j]>1) ? (1) : (emg_character_instance.emg_max[j]);
-				//emg_character_instance.emg_max[j] = (emg_character_instance.emg_max[j]<0) ? (0) : (emg_character_instance.emg_max[j]);
+				emg_character_instance.emg_max[j] = (emg_character_instance.emg_max[j]>1) ? (1) : (emg_character_instance.emg_max[j]);
+				emg_character_instance.emg_max[j] = (emg_character_instance.emg_max[j]<0) ? (0) : (emg_character_instance.emg_max[j]);
 				x[j + 16].index = j + 16 + 1; x[j + 16].value = emg_character_instance.emg_max[j];
 			}
+			x[24].index = -1;
 			//for (int j = 0; j < 24; j++)
 			//{
 			//	std::cout << x[j].index << ":" << x[j].value << "  ";
